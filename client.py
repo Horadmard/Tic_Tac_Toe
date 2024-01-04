@@ -2,28 +2,28 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
-def update(game, logical_position):
-        if not game.reset_board:
-                if game.player_X_turns:
-                    if not game.is_grid_occupied(logical_position):
-                        game.draw_X(logical_position)
-                        game.board_status[logical_position[0]][logical_position[1]] = -1
-                        game.player_X_turns = not game.player_X_turns
-                else:
-                    if not game.is_grid_occupied(logical_position):
-                        game.draw_O(logical_position)
-                        game.board_status[logical_position[0]][logical_position[1]] = 1
-                        game.player_X_turns = not game.player_X_turns
+def update(self, logical_position):
+        if not self.reset_board:
+            if self.player_X_turns:
+                if not self.is_grid_occupied(logical_position):
+                    self.draw_X(logical_position)
+                    self.board_status[logical_position[0]][logical_position[1]] = -1
+                    self.player_X_turns = not self.player_X_turns
+            else:
+                if not self.is_grid_occupied(logical_position):
+                    self.draw_O(logical_position)
+                    self.board_status[logical_position[0]][logical_position[1]] = 1
+                    self.player_X_turns = not self.player_X_turns
 
-                # Check if game is concluded
-                if game.is_gameover():
-                    game.display_gameover()
-
-                else:  
-                    # Play Again
-                    game.canvas.delete("all")
-                    game.play_again()
-                    game.reset_board = False
+            # Check if game is concluded
+            if self.is_gameover():
+                self.display_gameover()
+                # print('Done')
+        else:  
+            # Play Again
+            self.canvas.delete("all")
+            self.play_again()
+            self.reset_board = False
 
 def receive_message(sock, game):
     while True:
@@ -36,6 +36,7 @@ def receive_message(sock, game):
 
             # list index out of range err
             logical_position = list(data)
+            # to be fixed
             update(game, logical_position)
 
         except Exception as e:
