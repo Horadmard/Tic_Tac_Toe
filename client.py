@@ -37,6 +37,7 @@ def receive_message(sock, game):
             print("Received from server:", list(data))
 
             logical_position = list(data)
+            game.draw_O(logical_position)
             # list index out of range err
             # to be fixed
             # update(game, logical_position)
