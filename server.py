@@ -13,8 +13,6 @@ def handle_client(client, player, client2):
 
             print(f"Received from Player {player}: {list(data)}")
             
-            print(client)
-            print(type(client2))
             client.sendall(data)
             client2.sendall(data)
                 
@@ -49,5 +47,4 @@ def setup_server():
     threading.Thread(target=handle_client, args=(player2, 2, player1)).start() 
  
 if __name__ == "__main__":
-    turn = False
     setup_server()
