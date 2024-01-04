@@ -2,6 +2,29 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
+def update(game, logical_position):
+        if not game.reset_board:
+                if game.player_X_turns:
+                    if not game.is_grid_occupied(logical_position):
+                        game.draw_X(logical_position)
+                        game.board_status[logical_position[0]
+                                          ][logical_position[1]] = -1
+                        game.player_X_turns = not game.player_X_turns
+                else:
+                    if not game.is_grid_occupied(logical_position):
+                        game.draw_O(logical_position)
+                        game.board_status[logical_position[0]][logical_position[1]] = 1
+                        game.player_X_turns = not game.player_X_turns
+
+                # Check if game is concluded
+                if game.is_gameover():
+                    game.display_gameover()
+
+                else:  
+                    # Play Again
+                    game.canvas.delete("all")
+                    game.play_again()
+                    game.reset_board = False
 
 def receive_message(sock, game):
     while True:
@@ -14,29 +37,7 @@ def receive_message(sock, game):
 
             logical_position = game.logical_position
 
-            if not game.reset_board:
-                if game.player_X_turns:
-                    if not game.is_grid_occupied(logical_position):
-                        game.draw_X(logical_position)
-                        game.board_status[logical_position[0]
-                                          ][logical_position[1]] = -1
-                        game.player_X_turns = not game.player_X_turns
-                else:
-                    if not game.is_grid_occupied(logical_position):
-                        game.draw_O(logical_position)
-                        game.board_status[logical_position[0]
-                                          ][logical_position[1]] = 1
-                        game.player_X_turns = not game.player_X_turns
-
-                # Check if game is concluded
-                if game.is_gameover():
-                    game.display_gameover()
-
-            else:  
-                # Play Again
-                game.canvas.delete("all")
-                game.play_again()
-                game.reset_board = False
+            update(game, logical_position)
 
         except Exception as e:
             print(f"Error receiving data: {str(e)}")

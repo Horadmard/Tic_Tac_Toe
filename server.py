@@ -8,16 +8,11 @@ def handle_client(client, player, client2):
         try: 
             # data = client.recv(1024).decode('utf-8') 
             data = client.recv(1024)
-            # data = client.recv(1024)
             if not data: 
                 print(f"Player {player} disconnected.") 
                 break 
- 
-            # print(f"Received from Player {player}: {data}") 
+
             print(f"Received from Player {player}: {data}")
- 
-            # TODO: Implement game logic and update the board 
-             
  
             # Example: Echo the received data back to the clients 
             
