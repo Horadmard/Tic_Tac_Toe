@@ -2,6 +2,8 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
+# Hello World!
+
 def update(self, logical_position):
         if not self.reset_board:
             if self.player_X_turns:
