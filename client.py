@@ -39,12 +39,11 @@ def receive_message(sock, game):
             logical_position = list(data)
             # list index out of range err
             # to be fixed
-            # update(game, logical_position)
+            update(game, logical_position)
 
         except Exception as e:
             print(f"Error receiving data: {str(e)}")
             break
-
 
 def connect_server(game):
     host = '127.0.0.1'
@@ -57,7 +56,6 @@ def connect_server(game):
     Thread(target=receive_message, args=(client, game)).start()
 
     return client
-
 
 def send_massage(client, message):
     client.sendall(message)
@@ -168,10 +166,25 @@ class Tic_Tac_Toe():
                                 text=score_text)
 
     def convert_logical_to_grid_position(self, logical_position):
-        return [(200 / 3) * logical_position[0] + 100, (200 / 3) * logical_position[1] + 100]
+        grid_position = [
+            (self.size_of_board // 3) * (logical_position[0]) + self.symbol_size + 50,
+            (self.size_of_board // 3) * (logical_position[1]) + self.symbol_size + 50
+        ]
+        return grid_position
 
     def convert_grid_to_logical_position(self, grid_position):
-        return [int(grid_position[0] // (200 / 3)), int(grid_position[1] // (200 / 3))]
+        ranges = [range(i*(self.size_of_board // 3), (i+1)*(self.size_of_board // 3)) for i in range(3)]
+        logical_position = [0, 0]
+
+        for i, coord_range in enumerate(ranges):
+            if grid_position[0] in coord_range:
+                logical_position[0] = i 
+
+            if grid_position[1] in coord_range:
+                logical_position[1] = i
+        
+        return logical_position
+
 
     def is_grid_occupied(self, logical_position):
         if self.board_status[logical_position[0]][logical_position[1]] == 0:
