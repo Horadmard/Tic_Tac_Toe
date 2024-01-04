@@ -13,12 +13,8 @@ def handle_client(client, player, client2):
 
             print(f"Received from Player {player}: {list(data)}")
             
-            #if turn == client: 
-            print(client)
-            print(type(client2))
             client.sendall(data)
             client2.sendall(data)
-            turn = client2
                 
             
         except Exception as e: 
@@ -48,9 +44,7 @@ def setup_server():
  
     # Start a thread for each client 
     threading.Thread(target=handle_client, args=(player1, 1, player2)).start()
-    # global turn = player1
     threading.Thread(target=handle_client, args=(player2, 2, player1)).start() 
  
 if __name__ == "__main__":
-    # turn = False
     setup_server()
