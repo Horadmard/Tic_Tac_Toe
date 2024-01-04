@@ -1,5 +1,5 @@
 import socket 
-import threading 
+import threading
  
 # Function to handle each client connection 
 def handle_client(client, player, client2): 

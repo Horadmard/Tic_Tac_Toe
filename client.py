@@ -229,6 +229,8 @@ class Tic_Tac_Toe():
     def click(self, event):
         grid_position = [event.x, event.y]
         logical_position = self.convert_grid_to_logical_position(grid_position)
+
+        # send the logical_position to server decode it or not?
         send_massage(self.client, logical_position)
 
 
