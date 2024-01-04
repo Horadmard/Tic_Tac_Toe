@@ -37,18 +37,17 @@ def receive_message(sock, game):
             print("Received from server:", list(data))
 
             logical_position = list(data)
-            game.draw_O(logical_position)
             # list index out of range err
-            # to be fixed
             # update(game, logical_position)
 
+            # to be fixed ---------------------------
             if not game.reset_board:
                 if game.player_X_turns:
                     if not game.is_grid_occupied(logical_position):
                         game.draw_X(logical_position)
                         game.board_status[logical_position[0]][logical_position[1]] = -1
                         game.player_X_turns = not game.player_X_turns
-                else:
+                else: 
                     if not game.is_grid_occupied(logical_position):
                         game.draw_O(logical_position)
                         game.board_status[logical_position[0]][logical_position[1]] = 1
@@ -63,6 +62,7 @@ def receive_message(sock, game):
                 game.canvas.delete("all")
                 game.play_again()
                 game.reset_board = False
+            # to be fixed -------------------------------
 
         except Exception as e:
             print(f"Error receiving data: {str(e)}")
