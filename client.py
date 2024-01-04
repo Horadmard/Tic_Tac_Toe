@@ -2,7 +2,7 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
-# Hello World!
+# Hello there!
 
 def update(self, logical_position):
         if not self.reset_board:
@@ -20,7 +20,6 @@ def update(self, logical_position):
             # Check if game is concluded
             if self.is_gameover():
                 self.display_gameover()
-                # print('Done')
         else:  
             # Play Again
             self.canvas.delete("all")
@@ -37,31 +36,7 @@ def receive_message(sock, game):
             print("Received from server:", list(data))
 
             logical_position = list(data)
-            # list index out of range err
             update(game, logical_position)
-
-            if not game.reset_board:
-                if game.player_X_turns:
-                    if not game.is_grid_occupied(logical_position):
-                        game.draw_X(logical_position)
-                        game.board_status[logical_position[0]][logical_position[1]] = -1
-                        game.player_X_turns = not game.player_X_turns
-                else: 
-                    if not game.is_grid_occupied(logical_position):
-                        game.draw_O(logical_position)
-                        game.board_status[logical_position[0]][logical_position[1]] = 1
-                        game.player_X_turns = not game.player_X_turns
-
-                # Check if game is concluded
-                if game.is_gameover():
-                    game.display_gameover()
-                    # print('Done')
-            else:  
-                # Play Again
-                game.canvas.delete("all")
-                game.play_again()
-                game.reset_board = False
-            # to be fixed -------------------------------
 
         except Exception as e:
             print(f"Error receiving data: {str(e)}")
