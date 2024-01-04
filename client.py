@@ -7,8 +7,7 @@ def update(game, logical_position):
                 if game.player_X_turns:
                     if not game.is_grid_occupied(logical_position):
                         game.draw_X(logical_position)
-                        game.board_status[logical_position[0]
-                                          ][logical_position[1]] = -1
+                        game.board_status[logical_position[0]][logical_position[1]] = -1
                         game.player_X_turns = not game.player_X_turns
                 else:
                     if not game.is_grid_occupied(logical_position):
@@ -33,10 +32,10 @@ def receive_message(sock, game):
             if not data:
                 print("Disconnected from the server.")
                 break
-            print("Received from server:", data)
+            print("Received from server:", list(data))
 
-            logical_position = game.logical_position
-
+            # list index out of range err
+            logical_position = list(data)
             update(game, logical_position)
 
         except Exception as e:
@@ -72,6 +71,7 @@ class Tic_Tac_Toe():
 
     def __init__(self):
 
+        self.client = connect_server(self)
         self.window = Tk()
         self.window.title('Tic-Tac-Toe')
         self.canvas = Canvas(
@@ -95,7 +95,6 @@ class Tic_Tac_Toe():
         self.O_score = 0
         self.tie_score = 0
 
-        self.client = connect_server(self)
 
     def mainloop(self):
         self.window.mainloop()
@@ -232,7 +231,7 @@ class Tic_Tac_Toe():
         logical_position = self.convert_grid_to_logical_position(grid_position)
 
         # send the logical_position to server decode it or not?
-        send_massage(self.client, logical_position)
+        send_massage(self.client, bytes(logical_position))
 
 
 if __name__ == "__main__":

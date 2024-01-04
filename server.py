@@ -12,13 +12,11 @@ def handle_client(client, player, client2):
                 print(f"Player {player} disconnected.") 
                 break 
 
-            print(f"Received from Player {player}: {data}")
- 
-            # Example: Echo the received data back to the clients 
+            print(f"Received from Player {player}: {list(data)}")
             
             client.sendall(data)
             client2.sendall(data)
-            # client2.sendall(data) 
+
         except Exception as e: 
             print(f"Error handling Player {player}: {str(e)}") 
             break 
