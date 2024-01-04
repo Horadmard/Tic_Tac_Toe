@@ -3,7 +3,6 @@ import threading
  
 # Function to handle each client connection 
 def handle_client(client, player, client2): 
-    global current_player_turn
     while True: 
         try: 
             # data = client.recv(1024).decode('utf-8') 
@@ -14,9 +13,12 @@ def handle_client(client, player, client2):
 
             print(f"Received from Player {player}: {list(data)}")
             
+            print(client)
+            print(type(client2))
             client.sendall(data)
             client2.sendall(data)
-
+                
+            
         except Exception as e: 
             print(f"Error handling Player {player}: {str(e)}") 
             break 
@@ -43,7 +45,7 @@ def setup_server():
     print(f"Player 2 connected from {addr2}") 
  
     # Start a thread for each client 
-    threading.Thread(target=handle_client, args=(player1, 1, player2)).start() 
+    threading.Thread(target=handle_client, args=(player1, 1, player2)).start()
     threading.Thread(target=handle_client, args=(player2, 2, player1)).start() 
  
 if __name__ == "__main__":

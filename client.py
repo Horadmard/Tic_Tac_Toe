@@ -36,10 +36,10 @@ def receive_message(sock, game):
                 break
             print("Received from server:", list(data))
 
-            # list index out of range err
             logical_position = list(data)
+            # list index out of range err
             # to be fixed
-            update(game, logical_position)
+            # update(game, logical_position)
 
         except Exception as e:
             print(f"Error receiving data: {str(e)}")
