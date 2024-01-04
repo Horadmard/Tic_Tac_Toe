@@ -14,7 +14,7 @@ def handle_client(client, player, client2):
                 break 
 
             print(f"Received from Player {player}: {list(data)}")
-            if (player == 'x' and player_X_turns) or (player == 'O' and not player_X_turns):
+            if (player == 'X' and player_X_turns) or (player == 'O' and not player_X_turns):
                 client.sendall(data)
                 client2.sendall(data)
                 player_X_turns = not player_X_turns
