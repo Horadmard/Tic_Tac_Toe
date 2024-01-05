@@ -3,7 +3,7 @@ from threading import Thread
 from tkinter import Tk, Canvas
 
 # display turn above the window
-player_name = 0
+player_name = 'X', 'O'
 
 # Hello there!
 
@@ -74,7 +74,7 @@ class Tic_Tac_Toe():
 
         self.client = connect_server(self)
         self.window = Tk()
-        self.window.title('Tic-Tac-Toe'+ player_name)
+        self.window.title('Tic-Tac-Toe')
         self.canvas = Canvas(
             self.window, width=self.size_of_board, height=self.size_of_board)
         self.canvas.pack()
