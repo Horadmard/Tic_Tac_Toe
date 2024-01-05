@@ -154,8 +154,7 @@ class Tic_Tac_Toe():
         score_text = 'Player 1 (X) : ' + str(self.X_score) + '\n'
         score_text += 'Player 2 (O): ' + str(self.O_score) + '\n'
         score_text += 'Tie                    : ' + str(self.tie_score)
-        self.canvas.create_text(self.size_of_board / 2, 3 * self.size_of_board / 4, font="cmr 30 bold", fill=self.Green_color,
-                                text=score_text)
+        self.canvas.create_text(self.size_of_board / 2, 3 * self.size_of_board / 4, font="cmr 30 bold", fill=self.Green_color, text=score_text)
         self.reset_board = True
 
         score_text = 'Click to play again \n'

@@ -1,8 +1,10 @@
 import socket 
 import threading
 
+X_turn = True
+
 # Function to handle each client connection 
-def handle_client(client, player, client2, X_turn): 
+def handle_client(client, player, client2): 
     while True: 
         try: 
             # data = client.recv(1024).decode('utf-8') 
@@ -12,7 +14,7 @@ def handle_client(client, player, client2, X_turn):
                 break 
 
             print(f"Received from Player {player}: {list(data)}")
-
+            global X_turn
             if (player == 'X' and X_turn) or (player == 'O' and not X_turn):
                 client.sendall(data)
                 client2.sendall(data)
@@ -29,7 +31,6 @@ def setup_server():
      
     host = '127.0.0.1' 
     port = 5555
-    X_turn = True
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     server.bind((host, port)) 
@@ -47,8 +48,8 @@ def setup_server():
     print(f"Player 2 connected from {client_O[1]}")
  
     # Start a thread for each client 
-    threading.Thread(target=handle_client, args=(client_X[0], 'X', client_O[0], X_turn)).start()
-    threading.Thread(target=handle_client, args=(client_O[0], 'O', client_X[0], X_turn)).start() 
+    threading.Thread(target=handle_client, args=(client_X[0], 'X', client_O[0])).start()
+    threading.Thread(target=handle_client, args=(client_O[0], 'O', client_X[0])).start() 
  
 if __name__ == "__main__":
     setup_server()
