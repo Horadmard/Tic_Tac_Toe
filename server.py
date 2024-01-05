@@ -41,6 +41,8 @@ def setup_server():
     # Accept two client connections 
     # player1, addr1 = server.accept() 
     client_X = server.accept()
+    # tell client "who you are"
+    # client_X[0].sendall(bytes('x'))
     print(f"Player 1 connected from {client_X[1]}") 
  
     # player2, addr2 = server.accept()
