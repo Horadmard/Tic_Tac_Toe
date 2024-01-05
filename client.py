@@ -2,6 +2,7 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
+# display turn above the window
 player_name = 0
 
 # Hello there!
