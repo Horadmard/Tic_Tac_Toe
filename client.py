@@ -111,7 +111,8 @@ class Tic_Tac_Toe():
 
     def play_again(self):
         self.initialize_board()
-        self.player_X_starts = not self.player_X_starts
+        # implant turn conditions
+        # self.player_X_starts = not self.player_X_starts
         self.player_X_turns = self.player_X_starts
         self.board_status = [[0 for i in range(3)] for i in range(3)]
 
