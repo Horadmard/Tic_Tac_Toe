@@ -2,6 +2,8 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
+player_name = 0
+
 # Hello there!
 
 def update(self, logical_position):
@@ -71,7 +73,7 @@ class Tic_Tac_Toe():
 
         self.client = connect_server(self)
         self.window = Tk()
-        self.window.title('Tic-Tac-Toe')
+        self.window.title('Tic-Tac-Toe'+ player_name)
         self.canvas = Canvas(
             self.window, width=self.size_of_board, height=self.size_of_board)
         self.canvas.pack()
