@@ -7,27 +7,30 @@ player_name = 'X'
 
 # Hello there!
 
-def update(self, logical_position):
-        if not self.reset_board:
-            if self.player_X_turns:
-                if not self.is_grid_occupied(logical_position):
-                    self.draw_X(logical_position)
-                    self.board_status[logical_position[0]][logical_position[1]] = -1
-                    self.player_X_turns = not self.player_X_turns
-            else:
-                if not self.is_grid_occupied(logical_position):
-                    self.draw_O(logical_position)
-                    self.board_status[logical_position[0]][logical_position[1]] = 1
-                    self.player_X_turns = not self.player_X_turns
 
-            # Check if game is concluded
-            if self.is_gameover():
-                self.display_gameover()
-        else:  
-            # Play Again
-            self.canvas.delete("all")
-            self.play_again()
-            self.reset_board = False
+def update(self, logical_position):
+    if not self.reset_board:
+        if self.player_X_turns:
+            if not self.is_grid_occupied(logical_position):
+                self.draw_X(logical_position)
+                self.board_status[logical_position[0]
+                                  ][logical_position[1]] = -1
+                self.player_X_turns = not self.player_X_turns
+        else:
+            if not self.is_grid_occupied(logical_position):
+                self.draw_O(logical_position)
+                self.board_status[logical_position[0]][logical_position[1]] = 1
+                self.player_X_turns = not self.player_X_turns
+
+        # Check if game is concluded
+        if self.is_gameover():
+            self.display_gameover()
+    else:
+        # Play Again
+        self.canvas.delete("all")
+        self.play_again()
+        self.reset_board = False
+
 
 def receive_message(sock, game):
     i = 0
@@ -38,6 +41,7 @@ def receive_message(sock, game):
             global player_name
             if i == 1:
                 player_name = data.decode("utf-8")
+                game.window.title(f'Tic-Tac-Toe _ player {player_name}')
                 continue
             if not data:
                 print("Disconnected from the server.")
@@ -51,6 +55,7 @@ def receive_message(sock, game):
             print(f"Error receiving data: {str(e)}")
             break
 
+
 def connect_server(game):
     host = '127.0.0.1'
     port = 5555
@@ -62,6 +67,7 @@ def connect_server(game):
     Thread(target=receive_message, args=(client, game)).start()
 
     return client
+
 
 def send_massage(client, message):
     client.sendall(message)
@@ -78,9 +84,9 @@ class Tic_Tac_Toe():
 
     def __init__(self):
 
-        self.client = connect_server(self)
         self.window = Tk()
         self.window.title('Tic-Tac-Toe')
+        self.client = connect_server(self)
         self.canvas = Canvas(
             self.window, width=self.size_of_board, height=self.size_of_board)
         self.canvas.pack()
@@ -102,7 +108,6 @@ class Tic_Tac_Toe():
         self.O_score = 0
         self.tie_score = 0
 
-
     def mainloop(self):
         self.window.mainloop()
 
@@ -123,7 +128,7 @@ class Tic_Tac_Toe():
         self.board_status = [[0 for i in range(3)] for i in range(3)]
 
     def draw_O(self, logical_position):
-        
+
         grid_position = self.convert_logical_to_grid_position(logical_position)
         self.canvas.create_oval(grid_position[0] - self.symbol_size, grid_position[1] - self.symbol_size,
                                 grid_position[0] + self.symbol_size, grid_position[1] + self.symbol_size, width=self.symbol_thickness,
@@ -158,12 +163,14 @@ class Tic_Tac_Toe():
             self.size_of_board / 2, self.size_of_board / 3, font="cmr 60 bold", fill=color, text=text)
 
         score_text = 'Scores \n'
-        self.canvas.create_text(self.size_of_board / 2, 5 * self.size_of_board / 8, font="cmr 40 bold", fill=self.Green_color, text=score_text)
+        self.canvas.create_text(self.size_of_board / 2, 5 * self.size_of_board / 8,
+                                font="cmr 40 bold", fill=self.Green_color, text=score_text)
 
         score_text = 'Player 1 (X) : ' + str(self.X_score) + '\n'
         score_text += 'Player 2 (O) : ' + str(self.O_score) + '\n'
         score_text += 'Tie                : ' + str(self.tie_score)
-        self.canvas.create_text(self.size_of_board / 2, 3 * self.size_of_board / 4, font="cmr 30 bold", fill=self.Green_color, text=score_text)
+        self.canvas.create_text(self.size_of_board / 2, 3 * self.size_of_board / 4,
+                                font="cmr 30 bold", fill=self.Green_color, text=score_text)
         self.reset_board = True
 
         score_text = 'Click to play again \n'
@@ -172,24 +179,26 @@ class Tic_Tac_Toe():
 
     def convert_logical_to_grid_position(self, logical_position):
         grid_position = [
-            (self.size_of_board // 3) * (logical_position[0]) + self.symbol_size + 50,
-            (self.size_of_board // 3) * (logical_position[1]) + self.symbol_size + 50
+            (self.size_of_board // 3) *
+            (logical_position[0]) + self.symbol_size + 50,
+            (self.size_of_board // 3) *
+            (logical_position[1]) + self.symbol_size + 50
         ]
         return grid_position
 
     def convert_grid_to_logical_position(self, grid_position):
-        ranges = [range(i*(self.size_of_board // 3), (i+1)*(self.size_of_board // 3)) for i in range(3)]
+        ranges = [range(i*(self.size_of_board // 3), (i+1) *
+                        (self.size_of_board // 3)) for i in range(3)]
         logical_position = [0, 0]
 
         for i, coord_range in enumerate(ranges):
             if grid_position[0] in coord_range:
-                logical_position[0] = i 
+                logical_position[0] = i
 
             if grid_position[1] in coord_range:
                 logical_position[1] = i
-        
-        return logical_position
 
+        return logical_position
 
     def is_grid_occupied(self, logical_position):
         if self.board_status[logical_position[0]][logical_position[1]] == 0:
@@ -219,7 +228,8 @@ class Tic_Tac_Toe():
 
     def is_tie(self):
 
-        coord = [(i, j) for i, row in enumerate(self.board_status)for j, value in enumerate(row) if value == 0]
+        coord = [(i, j) for i, row in enumerate(self.board_status)
+                 for j, value in enumerate(row) if value == 0]
         tie = False
         if len(coord) == 0:
             tie = True
