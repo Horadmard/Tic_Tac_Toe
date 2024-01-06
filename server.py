@@ -42,11 +42,16 @@ def setup_server():
     # player1, addr1 = server.accept() 
     client_X = server.accept()
     # tell client "who you are"
-    # client_X[0].sendall(bytes('x'))
+    msg = "X"
+    msg = bytes(msg, "utf-8")
+    client_X[0].sendall(msg)
     print(f"Player 1 connected from {client_X[1]}") 
  
     # player2, addr2 = server.accept()
-    client_O = server.accept() 
+    client_O = server.accept()
+    msg = "O"
+    msg = bytes(msg, "utf-8")
+    client_O[0].sendall(msg)
     print(f"Player 2 connected from {client_O[1]}")
  
     # Start a thread for each client 

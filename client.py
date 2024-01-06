@@ -3,7 +3,7 @@ from threading import Thread
 from tkinter import Tk, Canvas
 
 # display turn above the window
-player_name = 'X', 'O'
+player_name = 'X'
 
 # Hello there!
 
@@ -30,9 +30,15 @@ def update(self, logical_position):
             self.reset_board = False
 
 def receive_message(sock, game):
+    i = 0
     while True:
         try:
             data = sock.recv(1024)
+            i += 1
+            global player_name
+            if i == 1:
+                player_name = data.decode("utf-8")
+                continue
             if not data:
                 print("Disconnected from the server.")
                 break
@@ -245,6 +251,7 @@ class Tic_Tac_Toe():
         logical_position = self.convert_grid_to_logical_position(grid_position)
 
         # send the logical_position to server decode it or not?
+        print(player_name)
         send_massage(self.client, bytes(logical_position))
 
 
