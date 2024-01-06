@@ -2,11 +2,9 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
-# display turn above the window
-player_name = 'X'
-
 # Hello there!
-
+# the occupied function must implant before send data
+# turn must fix
 
 def update(self, logical_position):
     if not self.reset_board:
@@ -38,10 +36,10 @@ def receive_message(sock, game):
         try:
             data = sock.recv(1024)
             i += 1
-            global player_name
+            # the first data sended by server is the name of player
             if i == 1:
-                player_name = data.decode("utf-8")
-                game.window.title(f'Tic-Tac-Toe _ player {player_name}')
+                game.player_name = data.decode("utf-8")
+                game.window.title(f'Tic-Tac-Toe _ player {game.player_name}')
                 continue
             if not data:
                 print("Disconnected from the server.")
@@ -90,10 +88,12 @@ class Tic_Tac_Toe():
         self.canvas = Canvas(
             self.window, width=self.size_of_board, height=self.size_of_board)
         self.canvas.pack()
+
         # Input from user in form of clicks
         self.window.bind('<Button-1>', self.click)
 
         self.initialize_board()
+        self.player_name = 'X'
         self.player_X_turns = True
         self.board_status = [[0 for i in range(3)] for i in range(3)]
 
@@ -123,7 +123,7 @@ class Tic_Tac_Toe():
     def play_again(self):
         self.initialize_board()
         # implant turn conditions
-        # self.player_X_starts = not self.player_X_starts
+        self.player_X_starts = not self.player_X_starts
         self.player_X_turns = self.player_X_starts
         self.board_status = [[0 for i in range(3)] for i in range(3)]
 
@@ -260,8 +260,7 @@ class Tic_Tac_Toe():
         grid_position = [event.x, event.y]
         logical_position = self.convert_grid_to_logical_position(grid_position)
 
-        # send the logical_position to server decode it or not?
-        print(player_name)
+        # send the logical_position to server, decode it or not?
         send_massage(self.client, bytes(logical_position))
 
 

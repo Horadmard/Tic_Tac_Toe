@@ -9,7 +9,7 @@ X_turn = True
 def handle_client(client, player, client2):
     while True:
         try:
-            # data = client.recv(1024).decode('utf-8')
+
             data = client.recv(1024)
             if not data:
                 print(f"Player {player} disconnected.")
@@ -42,18 +42,17 @@ def setup_server():
 
     print(f"Server listening on {host}:{port}")
 
-    # Accept two client connections
-    # player1, addr1 = server.accept()
+    # Accept two client connections:
     client_X = server.accept()
-    # tell client "who you are"
-    msg = "X"
+    # tell client "who you are" first client is X
+    msg = 'X'
     msg = bytes(msg, "utf-8")
     client_X[0].sendall(msg)
     print(f"Player 1 connected from {client_X[1]}")
 
-    # player2, addr2 = server.accept()
     client_O = server.accept()
-    msg = "O"
+    # second client is O
+    msg = 'O'
     msg = bytes(msg, "utf-8")
     client_O[0].sendall(msg)
     print(f"Player 2 connected from {client_O[1]}")
