@@ -3,25 +3,23 @@ from threading import Thread
 from tkinter import Tk, Canvas
 
 # Hello there!
-# the occupied function must implant before send data
-# turn must fix
+# turn must fix in server
 
 def update(self, logical_position):
     if not self.reset_board:
         if self.player_X_turns:
-            if not self.is_grid_occupied(logical_position):
-                self.draw_X(logical_position)
-                self.board_status[logical_position[0]
-                                  ][logical_position[1]] = -1
-                self.player_X_turns = not self.player_X_turns
+            self.draw_X(logical_position)
+            self.board_status[logical_position[0]
+                                ][logical_position[1]] = -1
+            self.player_X_turns = not self.player_X_turns
         else:
-            if not self.is_grid_occupied(logical_position):
-                self.draw_O(logical_position)
-                self.board_status[logical_position[0]][logical_position[1]] = 1
-                self.player_X_turns = not self.player_X_turns
+            self.draw_O(logical_position)
+            self.board_status[logical_position[0]][logical_position[1]] = 1
+            self.player_X_turns = not self.player_X_turns
 
         # Check if game is concluded
         if self.is_gameover():
+            # self.player_X_turns = True
             self.display_gameover()
     else:
         # Play Again
@@ -261,7 +259,8 @@ class Tic_Tac_Toe():
         logical_position = self.convert_grid_to_logical_position(grid_position)
 
         # send the logical_position to server, decode it or not?
-        send_massage(self.client, bytes(logical_position))
+        if not self.is_grid_occupied(logical_position) or self.reset_board:
+            send_massage(self.client, bytes(logical_position))
 
 
 if __name__ == "__main__":
