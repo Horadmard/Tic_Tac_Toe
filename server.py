@@ -4,26 +4,45 @@ import threading
 X_turn = True
 
 # Function to handle each client connection
+# X ID = 0, O ID = 1
 
-
-def handle_client(client, player, client2):
+def handle_client(client, player_name, client2):
     while True:
         try:
 
             data = client.recv(1024)
+
+            data = list(data)
+            game_status = data[2]
+            data.pop()
+            if player_name == 'X':
+                data.append(0)
+            else:
+                data.append(1)
+
             if not data:
-                print(f"Player {player} disconnected.")
+                print(f"Player {player_name} disconnected.")
                 break
 
-            print(f"Received from Player {player}: {list(data)}")
+            print(f"Received from Player {player_name}: {list(data)}")
+
+            data = bytes(data)
             global X_turn
-            if (player == 'X' and X_turn) or (player == 'O' and not X_turn):
+            if not game_status:
+                if (player_name == 'X' and X_turn) or (player_name == 'O' and not X_turn):
+                    client.sendall(data)
+                    client2.sendall(data)
+                    X_turn = not X_turn
+                else:
+                    pass
+            else:
                 client.sendall(data)
                 client2.sendall(data)
-                X_turn = not X_turn
+                X_turn = True
+
 
         except Exception as e:
-            print(f"Error handling Player {player}: {str(e)}")
+            print(f"Error handling Player {player_name}: {str(e)}")
             break
 
     client.close()
