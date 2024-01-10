@@ -4,23 +4,22 @@ from tkinter import Tk, Canvas
 
 # Hello there!
 # turn must fix in server
+# rebuild
+# identify 'X' as 0 and 'O' as 1
 
 
-def update(self, logical_position):
+def update(self, logical_position, player):
     if not self.reset_board:
-        if self.player_X_turns:
-            self.draw_X(logical_position)
+        if player == 0:
+            self.draw_X(logical_position[:2])
             self.board_status[logical_position[0]
                               ][logical_position[1]] = -1
-            self.player_X_turns = not self.player_X_turns
         else:
             self.draw_O(logical_position)
             self.board_status[logical_position[0]][logical_position[1]] = 1
-            self.player_X_turns = not self.player_X_turns
 
         # Check if game is concluded
         if self.is_gameover():
-            # self.player_X_turns = True
             self.display_gameover()
     else:
         # Play Again
@@ -40,13 +39,16 @@ def receive_message(sock, game):
                 game.player_name = data.decode("utf-8")
                 game.window.title(f'Tic-Tac-Toe _ player {game.player_name}')
                 continue
+
             if not data:
                 print("Disconnected from the server.")
                 break
-            print("Received from server:", list(data))
 
-            logical_position = list(data)
-            update(game, logical_position)
+            data = list(data)
+            print("Received from server:", data)
+
+            logical_position = data[:2]
+            update(game, logical_position, data[2])
 
         except Exception as e:
             print(f"Error receiving data: {str(e)}")
@@ -93,10 +95,8 @@ class Tic_Tac_Toe():
 
         self.initialize_board()
         self.player_name = 'X'
-        self.player_X_turns = True
         self.board_status = [[0 for i in range(3)] for i in range(3)]
 
-        self.player_X_starts = True
         self.reset_board = False
         self.gameover = False
         self.tie = False
@@ -121,9 +121,6 @@ class Tic_Tac_Toe():
 
     def play_again(self):
         self.initialize_board()
-        # implant turn conditions
-        self.player_X_starts = not self.player_X_starts
-        self.player_X_turns = self.player_X_starts
         self.board_status = [[0 for i in range(3)] for i in range(3)]
 
     def draw_O(self, logical_position):
@@ -258,10 +255,14 @@ class Tic_Tac_Toe():
     def click(self, event):
         grid_position = [event.x, event.y]
         logical_position = self.convert_grid_to_logical_position(grid_position)
-
+        data = logical_position
+        if not self.reset_board:
+            data.append(0)
+        else:
+            data.append(1)
         # send the logical_position to server, decode it or not?
         if not self.is_grid_occupied(logical_position) or self.reset_board:
-            send_massage(self.client, bytes(logical_position))
+            send_massage(self.client, bytes(data))
 
 
 if __name__ == "__main__":
