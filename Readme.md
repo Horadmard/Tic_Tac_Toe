@@ -1,4 +1,6 @@
-# this is a Tic_Tac_Toe game that can be play by two person in indivisual windows
+# Tic_Tac_Toe
+
+this is a Tic_Tac_Toe game that can be play by two person in indivisual windows
 
 This programm uses two sides:
 
