@@ -5,6 +5,10 @@ This programm uses two sides:
  - Client
  - Server
 
+
+# Installing
+you need to get some packages before using this program.
+
 Information send by Clients and Server recieve them, get process, check the turning and position of clicks and get back to clients for drawing part.
 ```
 $git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
