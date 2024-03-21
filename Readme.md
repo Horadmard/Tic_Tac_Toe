@@ -7,7 +7,8 @@ This programm uses two sides:
 
 
 # Installing
-you need to get some packages before using this program.
+You need to get some packages before using this program.
+
 
 Information send by Clients and Server recieve them, get process, check the turning and position of clicks and get back to clients for drawing part.
 ```
