@@ -3,7 +3,6 @@ import threading
 
 X_turn = True
 
-# Function to handle each client connection
 # X ID = 0, O ID = 1
 
 def handle_client(client, player_name, client2):
@@ -47,9 +46,8 @@ def handle_client(client, player_name, client2):
 
     client.close()
 
+
 # Setup the server
-
-
 def setup_server():
 
     host = '127.0.0.1'

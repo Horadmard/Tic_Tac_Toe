@@ -2,12 +2,6 @@ import socket
 from threading import Thread
 from tkinter import Tk, Canvas
 
-# Hello there!
-# turn must fix in server
-# rebuild
-# identify 'X' as 0 and 'O' as 1
-
-
 def update(self, logical_position, player):
     if not self.reset_board:
         if player == 0:
