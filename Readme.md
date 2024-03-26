@@ -16,4 +16,9 @@ Information send by Clients and Server recieve them, get process, check the turn
 ```
 git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 ```
-Just clone the repo and run main.py you'll see.
+Just clone the repo and install this packages below, run main.py you'll see.
+
+ - Popen from subprocess
+ - socket
+ - Thread from threading
+ - Tk, Canvas from tkinter
